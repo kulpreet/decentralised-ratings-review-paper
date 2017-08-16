@@ -326,9 +326,9 @@ Payment (\texttt{PoP}) and Proof of Payment Requested (\texttt{PoPR}).
 
 \subsection{Goals}
 
-Chlu is a decentralised platform for making payments and saving vendor
-reputations. Chlu enables vendors to build their reputation on a
-decentralised blockchain so they are not confined to a walled garden
+Chlu is a decentralised platform for making payments and storing
+vendor reputations. Chlu enables vendors to build their reputation on
+a decentralised blockchain so they are not confined to a walled garden
 of a single marketplace, and customers benefit from a transparent
 reputation of vendors backed by payments made for goods and
 services. The key goals of a decentralised reputation platform are to
@@ -420,7 +420,7 @@ marketplace outright.
 
 \subsection{Multiple Reputation Scores}
 
-Marketplaces are free to compute vendor's reputation scores based on
+Marketplaces are free to compute vendors' reputation scores based on
 their own algorithms. This is important so that marketplaces can
 encourage vendor behaviour they choose. For example, some marketplaces
 want to track a vendor's average ratings over the lifetime of the
@@ -495,11 +495,9 @@ The record has the following structure:
 \item[$S$, Signature] Signature of all of the above, signed by the vendor's private key available to the marketplace
 \end{description}
 
-$\texttt{Proof of Payment Request}, \texttt{PoPR} = (I, In, C, T, A, M, Sig(S_v, I,In,C,
-T, A, M))$, where $S_v$ is the vendor's signing key the vendor has
-shared with the marketplace and Sig is the operation of concatenating
-all the arguments apart from $S_v$, hashing it and and then signing
-the hash with $S_v$
+$\texttt{Proof of Payment Request}, \texttt{PoPR} = (I, In, C, T, A,
+M, Sig(I,In,C, T, A, M))$. The signature is created using $S_v$, the
+vendor's signing key the vendor has shared with the marketplace.
 
 
 \subsection{Payment Record}
@@ -726,12 +724,26 @@ The above process assures the marketplace that the same vendor is in
 control of $S_v$ and $S_{ve}$ and that the vendor has not altered the review
 since it was encrypted by the customer wallet using $P_{ve}$.
 
-The above process describes how the vendor can share their review to
-the marketplace using their wallet. It should be noted, however, that
-this functionality can be provided by any service that watches the
-blockchain for transactions to the vendor address and shares the
-reviews as they come in.
+This section described how vendors can share their reviews with
+marketplaces directly using their wallet. It should be noted, however,
+that this functionality can be provided by any service that watches
+the blockchain for transactions going to the vendor address and shares
+the reviews as they come in.
 
+\subsubsection{Review Completeness}
+
+A vendor receieves payment to an address they submit to a marketplace.
+Once we show that review completelness property is provided for a
+single vendor address it is easy to see how the protocol can be
+extended to support multiple vendor addresses. Multiple addresses and
+review completeness is easily provided for once we add a requirement
+on the marketplaces that they publish all the vendor addresses that
+vendors provide them for receiving payments.
+
+To see how review completeness is provided for a single vendor
+address. We note that marketplaces can monitor the block chain for any
+payments to that address and can find all the \texttt{Review Record}s
+for all of those payments.
 
 \subsubsection{Reviews After Product Delivery}
 
