@@ -18,18 +18,10 @@
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
 \usepackage{csquotes}
 
-\title{Chlu \\ Reviews and Ratings Verified by Payments on a Blockchain}
-\date{}
+\title{Reviews and Ratings Verified by Payments on a Blockchain}
+
 \author{
-Kulpreet Singh
-\and 
-Andronikos Nedos
-\and 
-Steve McSweeney
-\and 
-Brian McSweeney
-\and 
-Cassidy Daly
+  Chlu
 }
 
 \begin{document}
@@ -70,15 +62,15 @@ at each other's past behaviour and use that as a predictor of their
 future behaviour. All popular online marketplaces like eBay, Airbnb,
 Amazon marketplace and UpWork include a reputation system that
 provides trust in the vendors and in some cases customers
-too. However, these marketplaces keep the user's reputations locked to
+too. However, these marketplaces keep the users' reputations locked to
 their platforms, denying users the chance to benefit from reputation
 they built. With immutable ledger systems provided by blockchains,
-user's reputations can be saved on publicly accessible systems while
+users' reputations can be saved on publicly accessible systems while
 being kept private using advanced cryptographic solutions.
 
 It is also important that a vendor's reputation is not publicly
 available if a vendor chooses so. Instead, a vendor can choose to
-reveal his reputation only to a select customer or on a
+reveal their reputation only to a select customer or on a
 marketplace. Vendors can also select marketplaces that can always
 display their reputations.
 
@@ -409,17 +401,17 @@ with one or more marketplaces as they see fit.
 
 This requirement is important to avoid marketplaces listing vendors as
 members of the marketplace without permission from the vendor as well
-as providing privacy to the vendor in case he wants to disable any
-reviews and ratings for his services.
+as providing privacy to the vendor in case they want to disable any
+reviews and ratings for their services.
 
 This feature also allows a vendor to leave a marketplace and thus stop
-sharing his reputation with the marketplace, even though the
+sharing their reputation with the marketplace, even though the
 reputation already shared could have been saved by the marketplace.
 
 \subsection{All or Nothing Reputation}
 
 A vendor can not selectively hide any of the reviews and ratings
-received. Once a vendor shares his reputation with a marketplace all
+received. Once a vendor shares their reputation with a marketplace all
 the reviews and ratings are made available to the marketplace. The
 marketplace can detect if the vendor is not revealing any of the
 reviews and ratings and thus refuse to show the vendor's reputation on
@@ -569,7 +561,7 @@ First we describe the key pairs we need:
 \item[$S_{ve}$ and $P_{ve}$ is the vendor's encryption key pair] The
   secret key, $S_{ve}$, is retained by the vendor and the public key,
   $P_{ve}$, is made available over IPNS\cite{ipfs}. This enables the
-  vendor to control who can view his review details. To share the
+  vendor to control who can view thei review details. To share the
   review details, the vendor can decrypt the reviews and use a
   marketplace API to send them to the marketplace servers.
 \end{description}
@@ -653,8 +645,8 @@ content hashes in the payment record.
   \texttt{Review Record} is also saved inside the blockchain payment
   record allowing anyone to find the review left for the vendor with
   the payment. The \texttt{RR} also contains a content hash in
-  plaintext, and the vendor has to include this hash whenever he
-  publishes the review to a marketplace. This allows anyone to verify
+  plaintext, and the vendor has to include this hash whenever they
+  publish the review to a marketplace. This allows anyone to verify
   that a review is backed by a \texttt{Proof of Payment}, which in
   turn is backed by \texttt{Proof of Payment Requested} as shown
   earlier, and the review has not been tampered with.
@@ -724,7 +716,7 @@ not been changed by the vendor and is a valid review for the vendor.
 \begin{figure}
 \centering
 \includegraphics[width=0.6\textwidth]{../validating-new-tx.eps}
-\caption{\label{fig:validating-new-tx}Key distribution: Vendor}
+\caption{\label{fig:validating-new-tx}Validating reviews found from blockchain transactions}
 \end{figure}
 
 Figure \ref{fig:validating-new-tx} above shows the sequence of actions
@@ -806,7 +798,7 @@ attaching the best ratings to each payment.
 
 The vendor will succeed in creating a reputation history where each
 \texttt{PoPR} is signed by the dummy marketplace, and the vendor could
-use this history to show top ratings on his own website. However, any
+use this history to show top ratings on their own website. However, any
 other marketplace will chose to leave out ratings from this dummy
 marketplace. The vendor's ratings on other marketplaces will only show
 ratings received on other marketplaces that they accept ratings from.
