@@ -42,9 +42,9 @@ users can not take their reputation and sales history to another
 marketplace, if they want to. Chlu is an open, decentralised and
 freely accessible reputation platform built on top of public
 permissionless blockchain. Vendors and customers do not need to put
-their trust in any single entity. Anyone can use the Chlu smart
-contracts to make payments, track reputations and verify these
-reputations once they have the permission from the vendor to do so.
+their trust in any single entity. Anyone can use the Chlu protocols to
+make payments, track reputations and verify these reputations once
+they have the permission from the vendor to do so.
 
 Chlu provides protocols and open source libraries for marketplaces and
 online shops to integrate their payments and reputation systems with
@@ -510,14 +510,11 @@ details:
   blockchain
 \item[$V$, Vendor address] The address of the vendor on the blockchain
 \item[$A$, Amount paid] In the blockchain currency
-\item[$PoPR$, Proof of Payment Request] This is the request for
-  payment signed by the vendors secret key so that it can be verified
-  by a vendor public key
 \item[$RR$, Review Record] An IPFS content address where the review is
   stored
 \end{description}
 
-$\texttt{Payment record}, \texttt{PR} = (C, V, A, PoPR, RR)$
+$\texttt{Payment record}, \texttt{PR} = (C, V, A, RR)$
 
 
 \subsection{Review Record stored in IPFS}
@@ -527,14 +524,17 @@ The reviews stored on IPFS include the following details:
 \begin{description}
 \item[$Cr$, Currency] BTC, LTC, ZEC or ETH
 \item[$A$, Amount] In the above currency
-\item[$R$, Ratings] An integer in the range 1 to 5
+\item[$R$, Rating] An integer in the range 1 to 5
 \item[$Rv$, Review] A plain text review
 \item[$Dr$, Detailed Review] A JSON formatted review; the structure of
-  the review is defined by the marketplace H, Hash: The hash of all of
-  the above, $H(C, V, A, R, Rv, Dr)$
+  the review is defined by the marketplace
+\item[$PoPR$, Proof of Payment Request] This is the request for
+  payment signed by the vendors secret key so that it can be verified
+  by a vendor public key
+\item[$H$, Hash]: The hash of all of the above, $H(C, V, A, R, Rv, Dr, PoPR)$
 \end{description}
 
-$\texttt{Review Record}, \texttt{RR} = (H, E_v(Pve, (C, V, A, R, Rv, Dr)))$
+$\texttt{Review Record}, \texttt{RR} = (PoPR, H, E_v(Pve, (C, V, A, R, Rv, Dr)))$
 
 All the elements of the RR are encrypted using the Vendor's public key,
 $P_{ve}$.  The hash along with the encrypted data is stored on IPFS. The
@@ -559,7 +559,7 @@ First we describe the key pairs we need:
 \item[$S_{ve}$ and $P_{ve}$ is the vendor's encryption key pair] The
   secret key, $S_{ve}$, is retained by the vendor and the public key,
   $P_{ve}$, is made available over IPNS\cite{ipfs}. This enables the
-  vendor to control who can view thei review details. To share the
+  vendor to control who can view the review details. To share the
   review details, the vendor can decrypt the reviews and use a
   marketplace API to send them to the marketplace servers.
 \end{description}
