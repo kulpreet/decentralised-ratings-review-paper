@@ -1,5 +1,5 @@
 .DS_store
-paper/*.aux
-paper/*.log
-paper/*.out
+**/*.aux
+**/*.log
+**/*.out
 texput.log
