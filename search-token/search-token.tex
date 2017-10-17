@@ -18,6 +18,9 @@
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
 \usepackage{csquotes}
 
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
 \title{An incentivized search platform for searching vendors by reputation}
 
 \author{
@@ -41,10 +44,10 @@
   validate the authenticity of reputation data without depending on a
   trusted third party and without locking the reputation data inside a
   walled garden. The Chlu Search platform, described here, builds on
-  top of the Chlu reputation platform and incentivizes vendor and
-  customer participation by granting Chlu Search Tokens for writing
-  reviews and accepting payments. The same token is also used by
-  vendors to purhase advertising space on Chlu Search. Finally, we
+  top of the Chlu reputation platform and provides incentives vendor
+  and customer participation by granting Chlu Search Tokens for
+  writing reviews and accepting payments. The same token is also used
+  by vendors to purchase advertising space on Chlu Search. Finally, we
   specify the Chlu initial token generation event and the distribution
   of token across the founding team, investors and future generation
   of tokens that provides the incentives for vendor and customer
@@ -59,7 +62,7 @@ product of service, the customer has to repeat the search on multiple
 marketplaces and try to correlate the various ratings and reviews on
 those different marketplaces to try and select a vendor. The situation
 is such because marketplaces lock down vendor reputation data into
-walled gardens owned by the marketpalce. For example, eBay, Amazon and
+walled gardens owned by the marketplace. For example, eBay, Amazon and
 Alibaba reputation of the same vendor have no correlation. Multiple
 solution have been tried on web 2.0 by Yelp, TripAdvisor and similar
 platforms, to try and provide a means for customers to search for
@@ -102,7 +105,7 @@ and then doing the often frustrating work of drawing parallels between
 the diverse ratings systems used by the marketplaces.
 
 Chlu Search ranks vendors by the aggregate ratings and reviews
-received by vendors that are supported by validatable payments. The
+received by vendors that are supported by verifiable Payments. The
 search results therefore are based only on the ratings, 1 to 5, and
 the amounts paid. There are other improvements possible, for example
 using a half life on the ratings - older ratings contribute lower
@@ -115,7 +118,7 @@ The goals of Chlu Search can be defined as:
   on ratings received after a sale
 \item[Ratings backed by payments] If there is no sale, the rating is
   considered invalid and not included in the search rank calculation
-\item[Independency from marketplaces] Let vendors break free from the
+\item[Independence from marketplaces] Let vendors break free from the
   walled gardens of marketplaces, so that they can chose to start
   selling on any marketplace and even move from one to the other.
 \end{description}
@@ -125,9 +128,9 @@ a smart contract. Search doesn't need to be decentralised. However,
 the data that Chlu Search is built on is stored on a decentralised
 storage network, IPFS. The reputation data provided by Chlu reputation
 platform is stored on IPFS and completely under the vendor's
-control. Chlu Search requires that the vendor is incentivized to share
-this data with Chlu Search. In the next section we introduce the Chlu
-Search Token and show how it is used to provide vendors with
+control. Chlu Search requires that the vendor is provided incentives
+to share this data with Chlu Search. In the next section we introduce
+the Chlu Search Token and show how it is used to provide vendors with
 appropriate incentive.
 
 Chlu Search also requires that the Chlu reputation platform receives
@@ -139,13 +142,13 @@ Chlu Search Token as a reward.
 \section{Chlu Search Token}
 
 As described above the Chlu Search Token serves the important function
-of incentivizing the vendor and the customer so that there is data
-generated for Chlu Search to be relevant and there are enough vendors
-listed on Chlu Search. In this section, we describe the various uses
-of the Chlu Search Token and provide the initial details of the Chlu
-Search Token economy.
+of providing incentives to the vendor and the customer so that there
+is data generated for Chlu Search to be relevant and there are enough
+vendors listed on Chlu Search. In this section, we describe the
+various uses of the Chlu Search Token and provide the initial details
+of the Chlu Search Token economy.
 
-\subsection{Incentivize creating reviews with Chlu}
+\subsection{Providing Incentives for creating reviews with Chlu}
 
 Chlu Search rewards customers who create reviews on the Chlu
 reputation platform. The reward is in the form of Chlu Search Tokens
@@ -154,25 +157,23 @@ that can be converted to other cryptocurrencies.
 The only requirements to earn such rewards are
 
 \begin{enumerate}
-\item The customer is registered to receieve the reward and
+\item The customer is registered to receive the reward and
 \item The vendor is sharing the ratings data with Chlu Search
 \end{enumerate}
 
-The first requirement is not required apriori. Instead, the customer
+The first requirement is not required a priori. Instead, the customer
 can make payments and leave ratings for a vendor and come back much
 later to collect the reward for the work. As soon as a customer
 registers with Chlu and proves they are the authors of their ratings
 and reviews, the customer is rewarded with Chlu Search Tokens as per
 the specification described later.
 
-[TODO - change Chlu reputation protocol so that customer reviews are
-  created under their IPNS directory]
-
 To prove that a customer is the author of reviews, the customer wallet
-creates a validation signature in the IPNS directory where the reviews
-are saved. By registering with Chlu and proving their authorship of
-the reviews, customers can receive reward Chlu Search Tokens in an
-asynchronous manner.
+includes a signature in the review record and the public key to
+validate this signature is shared with Chlu Search at the time of user
+registration. See \cite{chlu-repuation} for details of the review
+record. The signature defined here is not required by the Chlu
+reputation record and therefore is not yet specified there.
 
 The second requirement listed above states that if the vendor is not
 sharing the ratings data with Chlu Search, the customer will not be
@@ -181,9 +182,9 @@ communicate this information to the customer, so that the customer is
 aware if they will receive a reward for leaving a review. Customers
 might even chose to not do business with a vendor who is not sharing
 their reputation data with Chlu simply because the customer wants to
-recieve the reward of Chlu Search Tokens.
+receive the reward of Chlu Search Tokens.
 
-\subsection{Incentivizing Adoption}
+\subsection{Providing Incentives for Increased Adoption}
 
 Chlu Search rewards both the customer and the vendor to participate in
 the Chlu economy.
@@ -218,12 +219,12 @@ and the token economy remains balanced.
 
 \subsection{Chlu Token Economy}
 
-Before we describe the Chlu Token economy is maintained, we need to
-specify how many tokens will exist, i.e. the cap on the number of Chlu
-Search tokens. We have decided this cap to be 2.1 billion tokens. At
-the time of token generation event, 50\% of the tokens will be
-generated and sold to initial token buyers. The rest 50\% of the
-tokens will be generated or ``mined'' as rewards for customers and
+Before we describe how the Chlu Token economy is maintained, we need
+to specify how many tokens will exist, i.e. the cap on the number of
+Chlu Search tokens. We have decided this cap to be 2.1 billion
+tokens. At the time of token generation event, 50\% of the tokens will
+be generated and sold to initial token buyers. The remaining 50\% of
+the tokens will be generated or ``mined'' as rewards for customers and
 vendors when they write reviews or share reviews with Chlu Search,
 respectively.
 
@@ -247,8 +248,27 @@ are generated. If instead there are reviews and there have been ad
 purchases in a given hour, then the rewards for that hour will include
 both the tokens.
 
-[EQUATION HERE - kp to develop an equation and conditional expression
-  to capture the above rule.]
+\begin{algorithm}
+  \caption{Chlu Search Token Reward Distribution}
+  \label{reward-algo}
+  \begin{algorithmic}
+    \STATE $cap\_reached \leftarrow$ Have all the tokens have already been generated?
+    \STATE $num\_reviews \leftarrow$ Number of reviews created in the given period
+    \STATE $add\_spend \leftarrow$ Number of tokens spent purchasing ad space in the given period
+    \IF{$cap\_reached$ is false and $num\_reviews >= 1$}
+    \STATE generate $6000$ Chlu Search Tokens
+    \STATE distribute amongst new review authors
+    \ELSIF{$num\_reviews >= 1$ and $add\_spend >= 1$}
+    \STATE distribute $add\_spend$ tokens as reward amongst new review authors
+    \STATE Chlu keeps a 5\% of $add\_spend$ as  commission for providing the Search platform
+    \ENDIF
+  \end{algorithmic}    
+\end{algorithm}
+
+Pseudo code in Algorithm \ref{reward-algo} shows how Chlu Search Tokens
+are generated and once the maximum number of tokens have been
+generated, the rewards are derived from the amount of tokens spent
+purchasing ad space on Chlu Search.
 
 \subsection{Token Generation Event}
 
@@ -256,6 +276,13 @@ The maximum number of Chlu Search Tokens ever generated will not
 exceed 2.1 billion, out of which 50\% are for sale during the token
 generation event to fund the development of the Chlu reputation and
 search platforms.
+
+5\% of the tokens are set aside for providing incentives to
+marketplaces for integratin Chlu reputation and payments
+platform. 30\% of the tokens are not generated at the time of the the
+token sale and instead are generated as reviews are created and
+customers and vendors have to be rewarded. Finally, 15\% of the tokens
+are reserved for the founders.
 
 \begin{center}
   \begin{table}
@@ -271,31 +298,49 @@ search platforms.
   \end{table}
 \end{center}
 
-5\% of the tokens are set aside for incentivizing marketplaces to
-integrate Chlu reputation and payments platform. 30\% of the tokens
-are not generated at the time of the the token sale and instead are
-generated as reviews are created and customers and vendors have to be
-rewarded. Finally, 15\% of the tokens are reserver for the founders.
-
 \subsection{Token reward rate}
 
-The Chlu Token economy will generate a maximum of 6000 tokens per
-hour. If there are no reviews created in a given hour, then no tokens
-are generated. If there are one or more reviews then the 6000 tokens
-are distributed between the customers who created the reviews and the
-vendors who shared their review with Chlu Search.
+Chlu Search Tokens will be generated at a maximum rate of 6000 tokens
+per hour. If there are no reviews created in a given hour, then no
+tokens are generated. If there are one or more reviews then the 6000
+tokens are distributed between the customers who created the reviews
+and the vendors who shared their review with Chlu Search.
 
-[TODO - need to recollect how we split them between payments that we
-  0.0001 btc, 1 btc, or 0.1 eth]
+\subsubsection{Sybil attacks}
 
-[TODO - need to recollect how we stopped someone from making 0.000001
-  btc payment to get review reward that is greater than the payment
-  amount. Especially since we don't have a conversion rate between
-  Chlu search token and btc known at the time. Maybe we can look it
-  up. Need to think this through.]
+There is a potential attack where users could create a marketplace to
+generate a proof of payment request and then pay themselves using a
+sock puppet account. These attacks are discussed in
+\cite{chlu-reputation} where we also show how these attacks can be
+turned useless by marketplaces refusing to consider reviews and
+ratings that appear to be from non-reputable marketplaces.
+
+To thwart such attacks Chlu token rewards are given to customers and
+vendors only if they register with Chlu Search to receive the rewards
+and have validated their identity using any on of the decentralised
+identity platforms like Civic\cite{civic} or
+Blockstack\cite{blockstack}.
+
+There is no minimum payment required to receive Chlu Search Token as
+reward for writing or receiving reviews. Further, there is no
+correlation between the amounts paid and the reward received. To drive
+adoption all payments are considered equal on purpose, we want the
+market to decide where platforms like the Chlu reputation platform and
+Chlu Search become popular.
 
 \section{Conclusion}
 
+We described how Chlu Search builds on top of the Chlu reputation
+platform and enables searches for vendors across marketplaces. We
+showed how Chlu Search provides incentives for customers to create
+ratings and reviews for vendors by rewarding them with Chlu Search
+Tokens. We also showed how vendors are provided incentives with Chlu
+Search Tokens for sharing their reputation data with Chlu Search.
+
+Finally we described the distribution of Chlu Search Tokens during the
+initial token generation event and how more tokens are generated as
+adoption increases. We also showed how the token economy works once
+all tokens have been generated
 
 \medskip
  
@@ -304,6 +349,12 @@ vendors who shared their review with Chlu Search.
 \bibitem{chlu-reputation} Chlu, \textit{Reviews and Ratings Verified
   by Payments on a Blockchain}. 2017.
   \url{https://chlu.io/papers/position-paper.pdf}
+
+\bibitem{civic} Chlu, \textit{Civic}. 2017.
+  \url{https://www.civic.com/}
+
+\bibitem{blockstack} Chlu, \textit{Blockstack}. 2017.
+  \url{https://blockstack.org/}
   
 \end{thebibliography}
 
