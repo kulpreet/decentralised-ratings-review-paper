@@ -4,5 +4,7 @@
 **/*.out
 **/*.bbl
 **/*.blg
+**/*.bcf
+**/*.run.xml
 texput.log
 **/.emacs.desktop*
