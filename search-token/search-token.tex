@@ -21,7 +21,7 @@
 \usepackage{algorithm}
 \usepackage{algorithmic}
 
-\usepackage{biblatex}
+\usepackage{url}
 
 \title{An incentivized search platform for searching vendors by reputation}
 
@@ -173,7 +173,7 @@ Tokens as per the specification described later.
 To prove that a customer is the author of reviews, the customer wallet
 includes a signature in the review record and the public key to
 validate this signature is shared with Chlu Search at the time of user
-registration. See \cite{chlu-repuation} for details of the review
+registration. See \cite{chlu-reputation} for details of the review
 record. The signature defined here is not required by the Chlu
 reputation record and therefore is not yet specified in that document.
 
@@ -248,13 +248,6 @@ are generated. If instead there are reviews and there have been ad
 purchases in a given hour, then the rewards for that hour will include
 both the tokens.
 
-Finally, Chlu Search Tokens will be generated at a maximum rate of
-$6000$ tokens per hour. If there are no reviews created in a given
-hour, then no tokens are generated. If there are one or more reviews
-then the $6000$ tokens are distributed between the customers who
-created the reviews and the vendors who shared their review with Chlu
-Search.
-
 \begin{algorithm}
   \caption{Chlu Search Token Reward Distribution}
   \label{reward-algo}
@@ -269,6 +262,13 @@ Search.
     \ENDIF
   \end{algorithmic}    
 \end{algorithm}
+
+Finally, Chlu Search Tokens will be generated at a maximum rate of
+$6000$ tokens per hour. If there are no reviews created in a given
+hour, then no tokens are generated. If there are one or more reviews
+then the $6000$ tokens are distributed between the customers who
+created the reviews and the vendors who shared their review with Chlu
+Search.
 
 Pseudo code in Algorithm \ref{reward-algo} shows how Chlu Search Tokens
 are generated and once the maximum number of tokens have been
@@ -341,20 +341,7 @@ all tokens have been generated
 
 \medskip
  
-\printbibliography
-
-\begin{thebibliography}{9}
-
-\bibitem{chlu-reputation} Chlu, \textit{Reviews and Ratings Verified
-  by Payments on a Blockchain}. 2017.
-  \url{https://chlu.io/papers/position-paper.pdf}
-
-\bibitem{civic} Chlu, \textit{Civic}. 2017.
-  \url{https://www.civic.com/}
-
-\bibitem{blockstack} Chlu, \textit{Blockstack}. 2017.
-  \url{https://blockstack.org/}
-  
-\end{thebibliography}
+\bibliographystyle{unsrt}
+\bibliography{search-token}
 
 \end{document}
