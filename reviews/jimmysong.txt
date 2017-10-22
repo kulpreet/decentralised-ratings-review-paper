@@ -1,0 +1,209 @@
+4.2 Proof of Payment -
+
+* You say that the customer can update this feedback for up to two
+  months after the purchase. Later on in 5.4, you mention that the way
+  a customer updates the feedback is by pointing the feedback to an
+  IPNS name. How do you prevent them from updating after 2 months?
+
+Response:
+
+Good catch, I totally failed to elaborate on this and I realise this
+actually might not work without extending the protocol.
+
+The idea would be to require marketplaces to ignore any reviews with
+creation more than 2 months after the initial payment. However, I now
+think this was a requirement I tried to fit in towards the end. It
+might make most sense to drop it for now. The reason is simply that I
+don't think we can timestamp updates without requiring a blockchain
+transaction, and maybe it is best to leave that for now.
+
+4.5 Private Feedback -
+
+* In 4.4 you claim that "no third party can directly profit from
+  facilitating a trustless reputation system". But in 4.5, the
+  feedback for the vendor is shared with a marketplace. What's
+  stopping the marketplace from selling the unencrypted feedback with
+  other marketplaces that the vendor doesn't want to be associated
+  with? Assuming the vendor has shared with multiple marketplaces, the
+  vendor can't even tell which marketplace is selling the vendor's
+  data. And since the reviews are cryptographically provable, it's
+  worth something in the market, no?
+
+
+Response:
+
+That is a very good point. Something I didn't think of till now. The
+only way out of this is outside the system.
+
+As the paper mentions in XX that marketplaces can choose to ignore
+reviews backed by PoPR created by certain marketplaces. We expect
+marketplaces behaviours will be closely scrutinized by other
+marketplaces and other independent organisations, this is so simply
+because of competition between marketplaces. So any bad behaviour by a
+marketplace could be severly punished by other marketplaces. The
+punishment would simply be to remove all reviews of vendors who have
+sold on the rogue marketplace in the past, which will inturn create a
+lot of pressure on the rogue marketplace to not indulge in such bad
+behaviour.
+
+5.2. Payment Record -
+
+* What is Customer address? For Bitcoin, at least, if the customer
+  pays a vendor, the address that the customer sent from is ambiguous,
+  especially if the transaction that pays the vendor has lots of
+  inputs. Similar things plague other blockchains.
+
+Response:
+
+Nice catch. Clearly a rookie mistake on my part. In fact, I am
+planning on coming along to your seminar in London just cause I want
+to avoid more of such errors. :)
+
+To be honest, this data structure is really there to abstract out the
+blockchain being used, and since account based blockchains like
+Ethereum have the from address, this error kind of crept in.
+
+I will change the description of customer_address to also say "where
+available."
+
+* Why is amount duplicated here and in Review Record? Payment Record
+  has a Review Record which has a PoPR which has the amount. Why risk
+  data corruption errors from having conflicting amounts?
+
+Response:
+
+Point taken. I think I was thinking of avoiding lookups, but really
+that is an optimisation and we shouldn't bother with it right now (or
+later!)
+
+5.3 Review Record -
+
+* Why is Currency and amount stored here? PoPR which it points to
+  should have both, no?
+
+Response:
+
+Same as above. Premature optimisation is the root of all evil!
+
+5.4 Key Distribution -
+
+* What links P_v and P_ve besides being in the same IPNS? Can I just
+  update the P_v under everyone's nose?
+
+Response:
+
+The only relation between P_v and P_ve is that they both are stored in
+an IPNS location, and that simply implies that the same entity
+controls them.
+
+If a vendor changes P_v, the reviews backed by PoPR signed by the
+corresponding S_v will all fail to validate. Tthe vendor will
+essentially lose all the review history created with P_v/S_v
+pair.
+
+More importantly, marketplaces can detect this change, as all these
+past reviews will suddenly become invalid. Marketplaces can then
+punish the vendor for trying to hide and or tamper with the past.
+
+Does this make sense? The whole system is trying to take away a
+centralised trusted authority and replace it with incentives for
+involved parties to not try and misbehave. Curious to hear what you
+think about the approach in general.
+
+5.4.1 Sharing the Vendor Signing Key -
+
+* Why does the vendor share a secret key? The only thing that they use
+  the secret key for is to sign the payment request, it looks
+  like. Why do *both* vendor and marketplace need the *same* key?
+
+Response:
+
+This is an interesting question. By giving a marketplace the secret
+key to sign a PoPR the vendor lets the marketplace create a PoPR
+without requiring a vendor's participation. This allows marketplaces
+to generated checkout pages that include a valid PoPR for a vendor.
+
+I toyed with the idea of requiring a third party service to provide
+this functionality to vendors, but these party services essentially
+become centralised entities. I thought it was best to let the
+marketplaces, vendors and customers directly trust, or not trust each
+other, as the case might be.
+
+Again, curious to hear if you think this approach make sense?
+
+5.4.4 Verifying Reviews
+
+* Is the only check that S_v and S_ve is owned by the same vendor the
+  IPNS entry? Are there plans to countersign keys or anything of that
+  nature?
+
+Response:
+
+No plans to countersign keys. I was thinking, does it not create a
+dependency on whosoever countersigning keys? I do worry if they IPNS
+dependency is too strong. What do you think?
+
+5.4.5 Review Completeness
+
+* You claim that "Once we show that review completeness property is
+  provided for a single vendor address, it is easy to see how the
+  protocol can be extended to support multiple vendor addresses". How
+  does a marketplace ensure that they have all the vendor addresses?
+  Most BTC merchants use a different address for every transaction.
+
+Response:
+
+I'll answer this in the context of bitcoin based blockchains.
+
+All marketplaces and any other interested parties can monitor the
+blockchain to detect OP_RETURN transactions with the Chlu prefix - we
+haven't decided on the prefix yet. By following the Review Record and
+the PoPR, all marketplaces have access to all reviews for all
+addresses of all vendors. Then it comes down to mapping IPNS key
+location to figure out which vendor the review is for.
+
+You raised an interesting question here. I wonder if I should add more
+meta data about the vendor in the vendor wallet setup time to identify
+the vendor. We at Chlu have been leaving identity out of the equation
+for a number of reasons. The one I like the best is to make an effort
+to make a decentralised system work without requiring an
+identity. Once we have that, adding identity will be easy and with the
+right partnerships could provide an improved system - like they say in
+the ads "Now with new improved formula" :)
+
+5.4.6 Reviews After Product Delivery
+
+* You note that an IPNS name is where a review will point. How can you
+  ensure that the customer won't sell the key controlling the IPNS
+  name to a competitor vendor?
+
+Interesting point. To be honest, we don't mind that! :D We aren't
+really tying the reputation to a real identity as yet. In fact this
+reputation marketplace sounds interesting to me.
+
+5.5 Sybil Attacks
+
+* Not all vendors have to pay the marketplace. Amazon is a
+  marketplace, but Amazon products don't have to pay Amazon, for
+  example. How do you prevent Sybil attacks by a marketplace that's
+  also a vendor?
+
+This is a fascinating question. I really didn't think about this at
+all. I guess an easy answer right now is to say, since Amazon has such
+a strong reputation in the current world, other marketplaces will
+simply trust Amazon sales, i.e. amazon will not be considered a "dummy
+marketplace." But I realise this simple answer has problems.
+
+Another answer is that Chlu really works for vendors selling on
+marketplaces that they themselves don't own. I mean, Amazon doesn't
+care what its reputation is on AliBaba. So maybe that is not a problem
+we really want to solve. Does that make sense?
+
+Also, am thinking, Chlu works for vendors on marketplaces, not really
+for marketplaces themselves. 
+
+----
+
+This was the best analysis of Chlu I have seen till now. Thank you so
+much for putting in the time to disect Chlu. It is really helpful!
+
