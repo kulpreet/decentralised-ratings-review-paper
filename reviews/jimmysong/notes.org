@@ -1,5 +1,17 @@
+* Marketplaces selling data
 
+As the paper mentions in XX that marketplaces can choose to ignore
+reviews backed by PoPR created by certain marketplaces. We expect
+marketplaces behaviours will be closely scrutinized by other
+marketplaces and other independent organisations, this is so simply
+because of competition between marketplaces. So any bad behaviour by a
+marketplace could be severly punished by other marketplaces. The
+punishment would simply be to remove all reviews of vendors who have
+sold on the rogue marketplace in the past, which will inturn create a
+lot of pressure on the rogue marketplace to not indulge in such bad
+behaviour.
 
+* Multiple vendor addresses
 
 I am realising the multiple vendors issues is not elaborated upon in
 the position paper and that it probably needs a section on its own.
