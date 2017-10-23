@@ -7,15 +7,8 @@
 
 Response:
 
-Good catch, I totally failed to elaborate on this and I realise this
-actually might not work without extending the protocol.
-
-This was a last minute addition, and not a core requirement. The idea
-was to require marketplaces to ignore any reviews with creation more
-than 2 months after the initial payment. However, we see that it might
-not work because we don't think we can timestamp updates without
-requiring a blockchain transaction, and maybe it is best to leave it
-out.
+Good catch, and we might have a solve for this. See the discussion
+around section 5.4.6 where we describe a way to timestamp reviews.
 
 4.5 Private Feedback -
 
@@ -29,7 +22,6 @@ out.
   data. And since the reviews are cryptographically provable, it's
   worth something in the market, no?
 
-TODO
 Response:
 
 You are right that a marketplace could sell the data to other
@@ -46,7 +38,7 @@ Once a vendor shares his data with a marketplace, the wallet saves
 this in a "profile" file under vendor's IPNS directory. In fact, in
 our vendor profile screen designs for Chlu searh we list which
 marketplaces the vendor is active at. So this is something we were
-thinking of.
+thinking of doing independent of this attack.
 
 By publishing the list of marketplaces a vendor has shared his
 reputation data with it becomes easy to detect which marketplace is
@@ -73,9 +65,9 @@ To be honest, this data structure is really there to abstract out the
 blockchain being used, and since account based blockchains like
 Ethereum have the from address, this error kind of crept in.
 
-I will change the description of customer_address to say "if available
-for the blockchain," as this address is not required by the other
-elements in Chlu.
+Since this address is not required by the other elements in Chlu, I
+will change the description of customer_address to say "if available
+for the blockchain,".
 
 * Why is amount duplicated here and in Review Record? Payment Record
   has a Review Record which has a PoPR which has the amount. Why risk
@@ -143,8 +135,7 @@ without contacting a service run by a vendor just to sign PoPRs.
 Response:
 
 No plans to countersign keys. We were thinking, does it not create a
-dependency on whoever is countersigning keys? We have been debating if
-the IPNS dependency is too strong in our solution. What do you think?
+dependency on whoever is countersigning keys?
 
 5.4.5 Review Completeness
 
@@ -173,9 +164,52 @@ review is for.
   ensure that the customer won't sell the key controlling the IPNS
   name to a competitor vendor?
 
-This is a real problem in the current setup, big thanks for pointing
-it out. It shows that we need to have the time lock on how much longer
-after a purchase can reviews to created or updated.
+Response:
+
+I think you found a big problem in the current design. The attack you
+describe will definitely succeed. So this deserves some
+explanation. 
+
+If we somehow don't allow reviewers to create a review 2 months after
+the initial payment, we wont necessarily eliminate the damage caused
+by a reviewer selling his IPNS keys to competitive vendor, but we
+would limit the damage enough so that this attack is not
+worthwhile. Why I say the damage will be limited is that a reviewer
+can't put his entire reviews history up for sale, instead at the max 2
+months worth of reviews.
+
+However, figuring out that a review is created more than 2 months
+after the initial payment requires a timestamping service, which is
+not a viable option, unless we do something clever with hash pointers
+and provide a vector clock for reviews. We describe a solution below.
+
+== Timestamping Reviews with hash pointers ==
+
+Each review in a reviewer's IPNS directory, apart from the very first
+one created, has to have a hash pointer to the last review created
+before this one. There are some sanity checks that can be easily run
+to check there is only a single root and a single chain of hash
+pointers in the IPNS reviews directory. We basically end up with a
+total ordering of a reviewers reviews.
+
+For example, say there are a sequence of reviews R_1, R_2, R_3... with
+payments that link to those reviews, P_1, P_2, P_3..., and that the
+dates of these payments are D_1, D_2, D_3...
+
+Now, say the reviewer want to edit R_1, i.e. write R_1'. R_1' will
+need to add a hash pointer to R_3. Which tells us that R_1' is atleast
+(D_3 - D_1) time periods after P_1. If this time period is more than 2
+months, then R_1' is invalid and marketplaces should consider that an
+invalid review.
+
+If a reviewer puts in a hash pointer from R_1' directly to R_1 or even
+to R_2, then marketplaces know that the reviewer can determine the
+branching in the reviews history and conclude that the reviewer is
+trying something bad. Marketplaces can then immediately discard all
+the reviews authored by the reviewer trying to attack.
+
+I think this could work, and definitely needs to go in the
+paper. Can't thank you enough for catching this!
 
 5.5 Sybil Attacks
 
