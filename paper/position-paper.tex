@@ -506,15 +506,13 @@ The payment record stored on blockchain contains the following
 details:
 
 \begin{description}
-\item[$C$, Customer address] The address of the customer on the
-  blockchain
 \item[$V$, Vendor address] The address of the vendor on the blockchain
 \item[$A$, Amount paid] In the blockchain currency
 \item[$RR$, Review Record] The IPFS content address where the review
   is stored
 \end{description}
 
-$\texttt{Payment record}, \texttt{PR} = (C, V, A, RR)$
+$\texttt{Payment record}, \texttt{PR} = (V, A, RR)$
 
 
 \subsection{Review Record stored in IPFS}
@@ -522,8 +520,6 @@ $\texttt{Payment record}, \texttt{PR} = (C, V, A, RR)$
 The reviews stored on IPFS include the following details: 
 
 \begin{description}
-\item[$Cr$, Currency] BTC, LTC, ZEC or ETH
-\item[$A$, Amount] In the above currency
 \item[$R$, Rating] An integer in the range 1 to 5
 \item[$Rv$, Review] A plain text review
 \item[$Dr$, Detailed Review] A JSON formatted review; the structure of
@@ -531,10 +527,10 @@ The reviews stored on IPFS include the following details:
 \item[$PoPR$, Proof of Payment Request] This is the request for
   payment signed by the vendors secret key so that it can be verified
   by a vendor public key
-\item[$H$, Hash]: The hash of all of the above, $H(C, V, A, R, Rv, Dr, PoPR)$
+\item[$H$, Hash]: The hash of all of the above, $H(R, Rv, Dr, PoPR)$
 \end{description}
 
-$\texttt{Review Record}, \texttt{RR} = (PoPR, H, E_v(Pve, (C, V, A, R, Rv, Dr)))$
+$\texttt{Review Record}, \texttt{RR} = (PoPR, H, E_v(Pve, (R, Rv, Dr)))$
 
 All the elements of the RR are encrypted using the Vendor's public key,
 $P_{ve}$.  The hash along with the encrypted data is stored on IPFS. The
