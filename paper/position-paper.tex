@@ -32,7 +32,7 @@
 We present a decentralised payments and reputation system that
 recognizes vendors for delivering goods and services. Payments made
 are accompanied by ratings and reviews and these can be verified by
-anyone the vendor grants permission to do so - in all other cases the
+anyone the vendor grants permission to do so --- in all other cases the
 reputation and payments remain private to the vendor. All ratings and
 reviews claimed by the vendor can be verified by cross checking data
 published on an immutable ledger.
@@ -75,10 +75,10 @@ marketplace. Vendors can also select marketplaces that can always
 display their reputations.
 
 Alongside the reputation system, international payments remain a
-challenge. Bank transfers can take weeks and can cost as much as 3\%
+challenge. Bank transfers can take weeks and can cost as much as $3\%$
 in transaction fees. Blockchains, with their immutable ledgers, have
 enabled payment platforms where transfers are near instant with very
-low fees. Converting a cryptocurrency to fiat can be as low as 0.26\%
+low fees. Converting a cryptocurrency to fiat can be as low as $0.26\%$
 fee.
 
 Chlu solves the above two problems thanks to blockchains. Using Chlu,
@@ -118,7 +118,7 @@ comes to eCommerce. The amount of data that we have from companies
 like Google, Amazon, eBay and others means that the evidence is
 irrefutable. Reviews from our peers are central to how we make
 purchasing decisions; this has been clearly established in the
-literature \footnote{\url{https://econsultancy.com/blog/9366-ecommerce-consumer-reviews-why-you-need-them-and-how-to-use-them}}.
+literature\footnote{\url{https://econsultancy.com/blog/9366-ecommerce-consumer-reviews-why-you-need-them-and-how-to-use-them}}.
  
 The numbers don't lie when trying to establish the scale of this
 opportunity. By 2020, global eCommerce will be a 4 trillion dollar
@@ -238,7 +238,7 @@ market, and why there is a need for a better solution.
 \subsection{Current Solutions}
 
 As mentioned above, more and more financial transactions are moving
-online with each passing year. eCommerce in general continues to grow
+online with each passing year. E-Commerce in general continues to grow
 at double digit rates, and mobile payments are just starting to take
 hold in mainstream transactions. You can more than likely pay for your
 groceries with your mobile device in your local supermarket today. In
@@ -272,15 +272,15 @@ transaction itself.
   conversion rates, hides the real cost to the consumer and makes it
   almost impossible for the consumer to `comparison-shop'}
 
-Transaction fees are typically between 2-6\% even for intra-bank
+Transaction fees are typically between $2-6\%$ even for intra-bank
 transfers, and flat fees are common for international transfers no
-matter the transaction size. Typical ranges are between \$35 to \$65
-per transfer for international outgoing wire transfers initiated
-online. Initiating a transfer by other means (e.g. over the phone)
-will incur further charges on top of this. This pricing may seem
-exorbitant, but in reality it is necessary to provide a healthy profit
-on top of the long list of fees imposed by the many parties involved
-along the way.
+matter the transaction size. Typical ranges are between $\$35$ to
+$\$65$ per transfer for international outgoing wire transfers
+initiated online. Initiating a transfer by other means (e.g.\ over the
+phone) will incur further charges on top of this. This pricing may
+seem exorbitant, but in reality it is necessary to provide a healthy
+profit on top of the long list of fees imposed by the many parties
+involved along the way.
 
 The full range of fees that can be applied to standard transactions is
 eye-opening: basic transaction fees, chargeback fees, retrieval
@@ -533,7 +533,7 @@ The reviews stored on IPFS include the following details:
 $\texttt{Review Record}, \texttt{RR} = (PoPR, H, E_v(Pve, (R, Rv, Dr)))$
 
 All the elements of the RR are encrypted using the Vendor's public key,
-$P_{ve}$.  The hash along with the encrypted data is stored on IPFS. The
+$P_{ve}$.  The hash along with the encrypted data is stored on IPFS\@. The
 content address of the \texttt{Review Record} is stored in the payment
 transaction.
 
@@ -567,13 +567,13 @@ Vendor's wallet. The vendor's wallet will create a signing key for
 each marketplace where the vendor wants to use Chlu.
 
 Vendor's wallet contains $((M_1, S_{v1}, P_{v1}), (M_2, S_{v2},
-P_{v2}), (M_3,S_{v3},P_{v3}), ...)$. Where $M_1$, $M_2$, $M_3$ are
+P_{v2}), (M_3,S_{v3},P_{v3}), \ldots)$. Where $M_1$, $M_2$, $M_3$ are
 names of the various marketplaces the vendor is registered with, and
 $S_{vi}$, $P_{vi}$ are the secret and the public keys the vendor has
 for the marketplace $M_i$.
 
-The public key, $P_v$ - required to verify if the signed payment
-request is valid - is saved in a publicly accessible location by the
+The public key, $P_v$ --- required to verify if the signed payment
+request is valid --- is saved in a publicly accessible location by the
 vendor's wallet. Chlu requires that this key is saved under
 \texttt{/ipns/vendorname/chlu/keys/pubver/mi/}. By using IPNS the vendor
 can add new keys under the pubver directory and change the IPNS name
@@ -583,13 +583,13 @@ entry.
 Publishing $P_v$ in a well known location helps us provide a useful
 property that whoever controls \texttt{/ipns/vendorname/} directory can
 publish other keys under that directory and we can be sure all those
-keys are owned by the same entity - in our case the vendor.
+keys are owned by the same entity --- in our case the vendor.
 
 \subsubsection{Sharing the Vendor Public Encryption Key}
 
 We now require that vendor's wallet generates an encryption key pair
 ($S_{ve}$, $P_{ve}$) and publishes the public key Pve under the same
-IPNS location as where the signing key was published -
+IPNS location as where the signing key was published ---
 \texttt{/ipns/vendorname/}.
 
 By requiring that the vendor encryption public key, $P_{ve}$, and the
@@ -609,10 +609,9 @@ moment the vendor decides to share them.
 \caption{\label{fig:vendor-wallet-init}Key distribution: Vendor}
 \end{figure}
 
-Figure \ref{fig:vendor-wallet-init} shows the sequence diagram for
+Figure\ref{fig:vendor-wallet-init} shows the sequence diagram for
 generating vendor's signing and encryption keys and publishing them on
-IPNS.
-
+IPNS\@.
 
 \subsubsection{Making Payments and Saving Review Records}
 
@@ -652,7 +651,7 @@ content hashes in the payment record.
 \caption{\label{fig:payment-processing}{Payment Processing}}
 \end{figure}
 
-Figure \ref{fig:payment-processing} shows how marketplace and the
+Figure\ref{fig:payment-processing} shows how marketplace and the
 customer wallet interact to save the \texttt{PoPR}, \texttt{PR} and
 \texttt{RR} when a payment is made to a vendor selling products or
 services on the marketplace.
@@ -713,7 +712,7 @@ not been changed by the vendor and is a valid review for the vendor.
 \caption{\label{fig:validating-new-tx}Validating reviews found from blockchain transactions}
 \end{figure}
 
-Figure \ref{fig:validating-new-tx} above shows the sequence of actions
+Figure\ref{fig:validating-new-tx} above shows the sequence of actions
 for review verification.
 
 The above process assures the marketplace that the same vendor is in
@@ -917,7 +916,7 @@ adopting Chlu.
 
 \bibitem{ipfs} 
   Benet, Juan
-  \textit{IPFS - Content Addressed, Versioned, P2P File System}. 2014.
+  \textit{IPFS --- Content Addressed, Versioned, P2P File System}. 2014.
   \url{https://github.com/ipfs/papers/raw/master/ipfs-cap2pfs/ipfs-p2p-file-system.pdf}
 
 \bibitem{openbazaar} 
