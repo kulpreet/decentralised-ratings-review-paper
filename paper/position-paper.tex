@@ -490,9 +490,14 @@ The record has the following structure:
 \item[$T$, Timestamp] A unix timestamp for when the payment request was generated
 \item[$Cr$, Currency] The currency symbol of the blockchain
 \item[$A$, Amount] In blockchain currency 
-\item[$M$, Marketplace] The URL where the marketplace is available
-\item[$K$, Key location] The IPFS content address where the vendor's public key is available
-\item[$S$, Signature] Signature of all of the above, signed by the vendor's private key available to the marketplace
+\item[$M$, Marketplace] The domain name of the marketplace
+\item[$K$, Key location] The IPFS content address where the public key
+  to verify PoPR is published. See section~\ref{sec:key-distribution}
+  for details on how vendor gets this key.
+\item[$S$, Signature] Signature of all of the above, signed by the
+  marketplace's private key for the
+  vendor. Section~\ref{sec:key-distribution} describes how this key
+  should be generated and stored by the marketplace
 \end{description}
 
 $\texttt{Proof of Payment Request}, \texttt{PoPR} = (I, In, C, T, A,
@@ -538,11 +543,16 @@ content address of the \texttt{Review Record} is stored in the payment
 transaction.
 
 \subsection{Key Distribution}
+\label{sec:key-distribution}
 
 Before we describe the protocols, we describe how keys are distributed
 for the signature in the \texttt{Proof of Payment} and the encryption
-of the \texttt{Review Record}. We use IPFS and IPNS to enable key
-distribution.
+of the \texttt{Review Record}.
+
+We use IPFS and IPNS to enable key distribution. The key idea is that
+marketplaces generate a key pair for each vendor that lists on the
+marketplace and signs the private key with its own ``certification
+key''. This way[HERE...]
 
 First we describe the key pairs we need:
 

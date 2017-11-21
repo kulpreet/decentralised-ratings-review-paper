@@ -1,0 +1,28 @@
+* Key sharing 
+
+1. Can a market place deny vendors their feedback data by removing the
+   S_v from the system?
+   1. No. This is because the public key P_v is available at vendor's
+      location and this is the key signed/certified by marketplace's
+      certification key
+      1. Marketplace has to store a root certification key at a well
+         known location /.well-known/feedback_certification_key
+2. What happens if the marketplace loses the certification key or
+   shuts down and stops hosting the certification key?
+   1. All the vendors will lost their ratings and reviews history. We
+      can't have this nonsense.
+3. What other bad things can the marketplace do by changing the P_v?
+4. Add a section about revocation of vendor encryption and signing
+   keys
+5. Popr includes ipfs location of the public key used to verify that
+   the vendor signed the request or the marketplace did it on vendor's
+   behalf
+6. This key is the public key that market place generated for the
+   vendor
+7. And it is saved in the same ipns location as the P_ve
+8. This way we don't send any private keys around + mktplace can't
+   take away the public key needed to validate popr
+9. We will need separate keys fur each marketplace and for P2P
+   payments
+10. We will need the vendor to sign the public key - but by saving it
+    in his ipns the vendor is certifying it!
