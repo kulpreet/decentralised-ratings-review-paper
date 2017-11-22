@@ -7,10 +7,29 @@
       certification key
       1. Marketplace has to store a root certification key at a well
          known location /.well-known/feedback_certification_key
-2. What happens if the marketplace loses the certification key or
+
+** Options
+
+   1. Marketplace creates a key pair and sends the public key to the
+      vendor who saves it in his IPNS location, indirectly authorizing
+      the marketplace's private key to sign on the vendor's behalf.
+      1. Anyone can copy that public key and claim to be the vendor.
+         1. Not a concern, as the PoPR links to the location of the
+            key
+   2. Vendor creates a key pair and sends the private key to the
+      vendor
+      1. The problem here is the shipping of private key to the
+         marketplace.
+      2. Again, anyone could copy the public key and claim to be the
+         vendor.
+         1. Not a concern, as the PoPR links to the location of the
+            key
+
+
+   3. What happens if the marketplace loses the certification key or
    shuts down and stops hosting the certification key?
-   1. All the vendors will lost their ratings and reviews history. We
-      can't have this nonsense.
+   1. All the vendors will lost their ratings and reviews history, as
+      they can't be verified. This is a no-go.
 3. What other bad things can the marketplace do by changing the P_v?
 4. Add a section about revocation of vendor encryption and signing
    keys
