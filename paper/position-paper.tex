@@ -552,8 +552,8 @@ There are a number of systems proposed in literature that describe a
 decentralised PKI so that anyone can publish their public keys,
 associate the keys with their identity and let them be easily
 discoverable. Some excellent proposals that will solve our problem of
-key distribution are under development
-\cite{blockstack}\cite{fromknecht2014decentralized}\cite{kulynychdecentralizing}\cite{rwot-dpki}\cite{IKP}\cite{morselli2006keychains},
+key distribution are under
+development\cite{blockstack,fromknecht2014decentralized,kulynychdecentralizing,rwot-dpki,IKP,morselli2006keychains},
 of these only Blockstack is in production use, however a standalone
 API or specifications are not available yet. We will update the Chlu
 protocol once a widely adopted decentralised PKI is available. Such a
@@ -563,14 +563,14 @@ one ecosystem.
 
 Until decentralised PKIs are available for production use and can be
 easily deployed by marketplaces, Chlu specifies the use of
-\texttt{.well-known} location to publish the marketplace root
-certification keys. The access to the \texttt{.well-known} will be
-made using SSL and therefore our solution depends on the centralised
-PKI based on Certification Authorities. We have chose this approach to
-provide a pragmatic workable solution that can be deployed
-today. However, as we said earlier, once decentralised PKIs are
-available in production, Chlu will switch to one with the easiest
-adoption curve for marketplaces.
+\texttt{.well-known}\cite{wellknown} location to publish the
+marketplace root certification keys. The access to the
+\texttt{.well-known} will be made using SSL and therefore our solution
+depends on the centralised PKI based on Certification Authorities. We
+have chose this approach to provide a pragmatic workable solution that
+can be deployed today. However, as we said earlier, once decentralised
+PKIs are available in production, Chlu will switch to one with the
+easiest adoption curve for marketplaces.
 
 
 We use IPFS and IPNS to enable key distribution. The key idea is that
