@@ -557,9 +557,9 @@ key distribution. We do not want to propose an alternative to these
 decentralised PKI because of two key difference
 
 \begin{itemize}
-\item we are not solving the problem of identity, i.e\@. we don't need
-  the marketplace and vendor public keys to be discoverable by just
-  using the vendor or marketplace identity.
+\item we are not solving the problem of identity, i.e\@. we depend on
+  DNS and \texttt{well-known}\cite{wellknown} scheme.
+\item 
 \end{itemize}
 
 We use IPFS and IPNS to enable key distribution. The key idea is that
@@ -966,40 +966,7 @@ proof of payment, and no need for a trusted third party required to
 verify transactions, all marketplaces will benefit tremendously from
 adopting Chlu.
 
-\medskip
- 
-\begin{thebibliography}{9}
-
-\bibitem{ipfs} 
-  Benet, Juan
-  \textit{IPFS --- Content Addressed, Versioned, P2P File System}. 2014.
-  \url{https://github.com/ipfs/papers/raw/master/ipfs-cap2pfs/ipfs-p2p-file-system.pdf}
-
-\bibitem{openbazaar} 
-  \textit{Decentralized Reputation in OpenBazaar}
-  \newline
-  \url{https://blog.openbazaar.org/decentralized-reputation-in-openbazaar}
-
-\bibitem{ethlance}
-  \textit{Ethlance --- hire or work for Ether cryptocurrency}
-  \url{https://ethlance.com}
-
-\bibitem{district0x}
-  \textit{A collective of decentralized marketplaces and communities}
-  \url{https://district0x.io/docs/district0x-whitepaper.pdf}
-
-\bibitem{colony}
-  \textit{Colony}
-  \url{https://colony.io}
-
-\bibitem{monetha}
-  \textit{Monetha}
-  \url{https://www.monetha.io/static/media/Monetha_White_Paper.72d6c2dc.pdf}
-
-\bibitem{wellknown}
-  \textit{Defining Well-Known Uniform Resource Identifiers (URIs)}
-  \url{https://tools.ietf.org/html/rfc5785}  
-  
-\end{thebibliography}
+\bibliography{position-paper}{}
+\bibliographystyle{plain}
 
 \end{document}

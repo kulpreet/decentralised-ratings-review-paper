@@ -8,3 +8,4 @@
 **/*.run.xml
 texput.log
 **/.emacs.desktop*
+**/*.dvi
