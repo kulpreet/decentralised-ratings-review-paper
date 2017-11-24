@@ -551,29 +551,29 @@ of the \texttt{Review Record}.
 There are a number of systems proposed in literature that describe a
 decentralised PKI so that anyone can publish their public keys,
 associate the keys with their identity and let them be easily
-discoverable. KeyChains, IKP, Rebooting the Web of Trust, ClaimChains,
-Yakoubov all are excellent proposals that will solve our problem of
-key distribution. We do not want to propose an alternative to these
-decentralised PKI because of two key difference
+discoverable. Some excellent proposals that will solve our problem of
+key distribution are under development
+\cite{blockstack}\cite{fromknecht2014decentralized}\cite{kulynychdecentralizing}\cite{rwot-dpki}\cite{IKP}\cite{morselli2006keychains},
+of these only Blockstack is in production use, however a standalone
+API or specifications are not available yet. We will update the Chlu
+protocol once a widely adopted decentralised PKI is available. Such a
+decentralised PKI will allow third parties to provide an
+implementation and does not require Chlu to be developed only for that
+one ecosystem.
 
-\begin{itemize}
-\item we are not solving the problem of identity, i.e\@. we depend on
-  DNS and \texttt{well-known}\cite{wellknown} scheme.
-\item 
-\end{itemize}
+Until decentralised PKIs are available for production use and can be
+easily deployed by marketplaces, Chlu depends on DNS-Based
+Authentication of Named Entities (DANE)\cite{rfc6698} to publish the
+marketplace's Chlu root key.
 
 We use IPFS and IPNS to enable key distribution. The key idea is that
-marketplaces generate a root key pair and saves it in a
-\texttt{well-known}\cite{wellknown} IPNS location. The well known
-location is published at the root of the domain name's web
-server. Later, when vendors signup to the marketplace the marketplace
-generates a key pair for each vendor, keeps the private key safe,
-signs the public key for the vendor and sends it to the vendor. At the
-moment, the signature is simple ECDSA and does not include any other
-meta data.
-
-Before we present our scheme in detail, we first describe the key
-pairs that need to be generated and distributed.
+marketplaces generate a root key pair and publises is using
+DANE. Later, when vendors signup to the marketplace, it generates a
+key pair for each vendor, keeps the private key safe, signs the public
+key for the vendor and sends it to the vendor. At the moment, the
+signature is simple ECDSA and does not include any other meta data. We
+describe the details of this scheme in the next section, first need to
+defined the key pairs that need to be generated and distributed.
 
 \begin{description}
 
@@ -608,13 +608,13 @@ them with any marketplace.
   
 \end{description}
 
+
 %% Algorithm here
 \begin{itemize}
 \item Marketplace $\mathbb{M}$ generates a 
 \end{itemize}
 
 \subsubsection{Key Revocation}\label{sec:key-revocation}
-
 
 \subsubsection{Sharing the Vendor Signing Key}
 
