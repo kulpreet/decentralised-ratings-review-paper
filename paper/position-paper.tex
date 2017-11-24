@@ -562,9 +562,16 @@ implementation and does not require Chlu to be developed only for that
 one ecosystem.
 
 Until decentralised PKIs are available for production use and can be
-easily deployed by marketplaces, Chlu depends on DNS-Based
-Authentication of Named Entities (DANE)\cite{rfc6698} to publish the
-marketplace's Chlu root key.
+easily deployed by marketplaces, Chlu specifies the use of
+\texttt{.well-known} location to publish the marketplace root
+certification keys. The access to the \texttt{.well-known} will be
+made using SSL and therefore our solution depends on the centralised
+PKI based on Certification Authorities. We have chose this approach to
+provide a pragmatic workable solution that can be deployed
+today. However, as we said earlier, once decentralised PKIs are
+available in production, Chlu will switch to one with the easiest
+adoption curve for marketplaces.
+
 
 We use IPFS and IPNS to enable key distribution. The key idea is that
 marketplaces generate a root key pair and publises is using
