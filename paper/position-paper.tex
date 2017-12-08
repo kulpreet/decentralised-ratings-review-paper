@@ -648,10 +648,23 @@ Finally, anyone can verify that the vendor's public key is signed by
 the marketplace's root certification key that is available at the
 marketplace's \texttt{.well-known} location.
 
+The public key, $P_{vm}$ --- required to verify if the signed payment
+request is valid --- is saved in a publicly accessible location by the
+vendor's wallet. Chlu requires that this key is saved under
+\texttt{/ipns/vendorname/chlu/keys/pubver/mi/}. By using IPNS the
+vendor can add new keys under the pubver directory and change the IPNS
+name to point to the updated Chlu directory under the vendorname IPNS
+entry.
+
+Publishing $P_{vi}$ in a well known location helps us provide a useful
+property that whoever controls \texttt{/ipns/vendorname/} directory
+can publish other keys under that directory and we can be sure all
+those keys are owned by the same entity --- in our case the vendor.
+
 The section shows how the key distribution scheme used by Chlu
-demonstrates trust between the marketplace and vendor. This leads to
-the next section, where we show how the marketplace or vendor can
-remove the trust demonstration by removing the respective keys.
+demonstrates trust between the marketplace and vendor. In the next
+section we show how the marketplace or vendor can remove the trust
+demonstration by removing the respective keys.
 
 \subsubsection{Key Revocation}\label{sec:key-revocation}
 
@@ -667,41 +680,20 @@ On the other hand, if vendors want to remove the demonstrated trust in
 a marketplace, the can simply remove the signed vendor public key from
 the IPNS location under their control.
 
-\subsubsection{Sharing the Vendor Signing Key}
-
-The vendor signing key, $S_v$, is shared with the marketplace by the
-Vendor's wallet. The vendor's wallet will create a signing key for
-each marketplace where the vendor wants to use Chlu.
-
-Vendor's wallet contains $((M_1, S_{v1}, P_{v1}), (M_2, S_{v2},
-P_{v2}), (M_3,S_{v3},P_{v3}), \ldots)$. Where $M_1$, $M_2$, $M_3$ are
-names of the various marketplaces the vendor is registered with, and
-$S_{vi}$, $P_{vi}$ are the secret and the public keys the vendor has
-for the marketplace $M_i$.
-
-The public key, $P_v$ --- required to verify if the signed payment
-request is valid --- is saved in a publicly accessible location by the
-vendor's wallet. Chlu requires that this key is saved under
-\texttt{/ipns/vendorname/chlu/keys/pubver/mi/}. By using IPNS the vendor
-can add new keys under the pubver directory and change the IPNS name
-to point to the updated Chlu directory under the vendorname IPNS
-entry.
-
-Publishing $P_v$ in a well known location helps us provide a useful
-property that whoever controls \texttt{/ipns/vendorname/} directory can
-publish other keys under that directory and we can be sure all those
-keys are owned by the same entity --- in our case the vendor.
-
 \subsubsection{Sharing the Vendor Public Encryption Key}
 
-We now require that vendor's wallet generates an encryption key pair
-($S_{ve}$, $P_{ve}$) and publishes the public key Pve under the same
-IPNS location as where the signing key was published ---
-\texttt{/ipns/vendorname/}.
+In this section we describe how the vendor generates an encryption key
+pair so that customers can encrypt a review so that only the vendor
+can read it.
+
+A vendor's wallet generates an encryption key pair ($S_{ve}$,
+$P_{ve}$) and publishes the public key $P_{ve}$ under the same IPNS
+location where the public key for verifying signatures on
+\texttt{PoPR} was published --- \texttt{/ipns/vendorname/}.
 
 By requiring that the vendor encryption public key, $P_{ve}$, and the
-signature verification key, $P_v$, both be published in the same IPNS
-location, we are able to guarantee that the entity who signs the
+signature verification keys, $P_{vi}$, both be published in the same
+IPNS location, we are able to guarantee that the entity who signs the
 \texttt{Proof of Payment Request} is the only one that can decrypt the
 \texttt{Review Record}.
 
@@ -720,7 +712,21 @@ Figure\ref{fig:vendor-wallet-init} shows the sequence diagram for
 generating vendor's signing and encryption keys and publishing them on
 IPNS\@.
 
-\subsubsection{Making Payments and Saving Review Records}
+\subsection{Discovering Reviews}
+\label{discovering-reviews}
+
+By requiring that a vendor publish their $P_{vm}$ and $P_{ve}$ under
+the same IPNS location we enable marketplaces to discover new reviews
+received by the vendor $v$ in any other marketplace the vendor starts
+to operate in. If vendors are sharing their reviews with marketplace
+$m$ and try to hide some of the reviews, the marketplace $m$ can
+discover this and choose to block the vendors listings on their
+marketplace. Given this, the vendors are unable to selectively hide
+reviews from any marketplace without being discovered and potentially
+penalised by the marketplace.
+
+
+\subsection{Making Payments and Saving Review Records}
 
 We now describe how payment processing works so that the each
 published review is supported by a \texttt{Proof of Payment} and each
