@@ -712,12 +712,54 @@ moment the vendor decides to share them.
 \caption{\label{fig:vendor-wallet-init}Key distribution: Vendor}
 \end{figure}
 
-Figure\ref{fig:vendor-wallet-init} shows the sequence diagram for
+Figure~\ref{fig:vendor-wallet-init} shows the sequence diagram for
 generating vendor's signing and encryption keys and publishing them on
 IPNS\@.
 
-\subsection{Discovering Reviews}
-\label{discovering-reviews}
+\subsection{Making Payments and Saving Review Records}
+
+We now describe how payment processing works so that the each
+published review is supported by a \texttt{Proof of Payment} and each
+payment received is in turn supported by a \texttt{Proof of Payment
+  Requested}.
+
+When a customer selects an item and wants to make a payment, the
+marketplace first generates a \texttt{PoPR} and shares it with the
+customer. The customer opens the payment request in a customer wallet
+and this payment request includes the \texttt{PoPR}. The customer then
+chooses to make the payment, and includes review and a rating as part
+of the payment. The customer's wallet makes a blockchain transaction
+to make the payment to the vendor and embeds the following two IPFS
+content hashes in the payment record.
+
+\begin{description}
+\item[PoPR] This is the address of the \texttt{PoPR}, so that anyone who finds
+  this transaction on the blockchain can look up the \texttt{PoPR} on
+  IPFS and validate it as a payment request made by the vendor.
+\item[RR] The \texttt{Review Record} includes the review and rating
+  sent by the customer and saved on IPFS. The content address of the
+  \texttt{Review Record} is also saved inside the blockchain payment
+  record allowing anyone to find the review left for the vendor with
+  the payment. The \texttt{RR} also contains a content hash in
+  plaintext, and the vendor has to include this hash whenever they
+  publish the review to a marketplace. This allows anyone to verify
+  that a review is backed by a \texttt{Proof of Payment}, which in
+  turn is backed by \texttt{Proof of Payment Requested} as shown
+  earlier, and the review has not been tampered with.
+\end{description}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.6\textwidth]{../payment-processing.eps}
+\caption{\label{fig:payment-processing}{Payment Processing}}
+\end{figure}
+
+Figure~\ref{fig:payment-processing} shows how marketplace and the
+customer wallet interact to save the \texttt{PoPR}, \texttt{PR} and
+\texttt{RR} when a payment is made to a vendor selling products or
+services on the marketplace.
+
+\subsection{Discovering Reviews}\label{discovering-reviews}
 
 By requiring that a vendor publish their $P_{vm}$ and $P_{ve}$ under
 the same IPNS location we enable marketplaces to discover new reviews
@@ -728,6 +770,36 @@ discover this and choose to block the vendors listings on their
 marketplace. Given this, the vendors are unable to selectively hide
 reviews from any marketplace without being discovered and potentially
 penalised by the marketplace.
+
+We are also developing an experimental approach to use the IPFS pubsub
+system to provide a solution of discovering and replicating
+reviews. Some example services like orbit-db\cite{orbitdb} are working
+on such solutions that uses IPFS pubsub to provide event subscription
+services. Apart from orbit-db, the IPRS\cite{iprs} specifcations
+developed by IPFS team is a promising avenue.
+
+We are working on evaluating the above three approaches and will
+contribute to the efforts so that our systems are built on projects
+that benefit from community review.
+
+\subsection{Authenticating Reviews}\label{sec:authenticating-reviews}
+
+By publishing review records in an IPNS location controlled by the
+customer's private key, any review records written there are
+guaranteed to be written by the the customer. We are aware of the
+potential dependency in this solution that the IPNS entry for the
+customer might expire if no one is republishing the entry.
+
+To address this potential problem we sign the review record with a
+private key and includes a public key to verify the signature in the
+review record. When the customer publishes an update to the review,
+the customer includes a signature using the same private key, so that
+the public key published in the original review record can be used to
+verify that the update to the review record is written by the entity
+that controls the private key.
+
+Our first implementation will use IPNS and later on we plan to extend
+the protocol to use the bitcoin like scheme described above.
 
 \subsection{Timestamping Reviews}\label{sec:timestamping-reviews}
 
@@ -777,51 +849,7 @@ ignore the review.
 \caption{\label{fig:hash-pointer-reviews}{Hash pointers in customer reviews}}
 \end{figure}
 
-\subsection{Making Payments and Saving Review Records}
-
-We now describe how payment processing works so that the each
-published review is supported by a \texttt{Proof of Payment} and each
-payment received is in turn supported by a \texttt{Proof of Payment
-  Requested}.
-
-When a customer selects an item and wants to make a payment, the
-marketplace first generates a \texttt{PoPR} and shares it with the
-customer. The customer opens the payment request in a customer wallet
-and this payment request includes the \texttt{PoPR}. The customer then
-chooses to make the payment, and includes review and a rating as part
-of the payment. The customer's wallet makes a blockchain transaction
-to make the payment to the vendor and embeds the following two IPFS
-content hashes in the payment record.
-
-\begin{description}
-\item[PoPR] This is the address of the \texttt{PoPR}, so that anyone who finds
-  this transaction on the blockchain can look up the \texttt{PoPR} on
-  IPFS and validate it as a payment request made by the vendor.
-\item[RR] The \texttt{Review Record} includes the review and rating
-  sent by the customer and saved on IPFS. The content address of the
-  \texttt{Review Record} is also saved inside the blockchain payment
-  record allowing anyone to find the review left for the vendor with
-  the payment. The \texttt{RR} also contains a content hash in
-  plaintext, and the vendor has to include this hash whenever they
-  publish the review to a marketplace. This allows anyone to verify
-  that a review is backed by a \texttt{Proof of Payment}, which in
-  turn is backed by \texttt{Proof of Payment Requested} as shown
-  earlier, and the review has not been tampered with.
-\end{description}
-
-\begin{figure}
-\centering
-\includegraphics[width=0.6\textwidth]{../payment-processing.eps}
-\caption{\label{fig:payment-processing}{Payment Processing}}
-\end{figure}
-
-Figure\ref{fig:payment-processing} shows how marketplace and the
-customer wallet interact to save the \texttt{PoPR}, \texttt{PR} and
-\texttt{RR} when a payment is made to a vendor selling products or
-services on the marketplace.
-
-
-\subsubsection{Verifying Reviews}
+\subsection{Verifying Reviews}
 
 Vendors are free to share their review history with marketplaces and
 send an update to the marketplace when a review is available. We show
@@ -876,7 +904,7 @@ not been changed by the vendor and is a valid review for the vendor.
 \caption{\label{fig:validating-new-tx}Validating reviews found from blockchain transactions}
 \end{figure}
 
-Figure\ref{fig:validating-new-tx} above shows the sequence of actions
+Figure~\ref{fig:validating-new-tx} above shows the sequence of actions
 for review verification.
 
 The above process assures the marketplace that the same vendor is in
@@ -993,7 +1021,7 @@ all of which support \texttt{OP\_RETURN}. As well as on
 Ethereum\footnote{\url{https://www.ethereum.org/}} where we store IPFS
 content addresses on the blockchain using a thin smart contract.
 
-\section{Comparison}
+\section{Related Work}
 
 Chlu is not a marketplace. This immediately differentiates it from all
 other efforts to provide decentralised marketplaces. Instead, Chlu is
