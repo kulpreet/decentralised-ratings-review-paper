@@ -1,3 +1,28 @@
+* Reviews Authenticating and Discovery
+
+  Till now I was thinking of writing reviews by customers to an IPNS
+  location, so that once an IPNS name was resolved to an IPFS
+  location, we had
+  
+  1. Authentication: The review is written by the same entity that
+     owns the key to update the IPNS name published included in the
+     payment transaction
+  2. Discovery: Marketplaces and Chlu would poll the IPNS location to
+     see if there was a review update available under the IPFS
+     directory pointed to by the IPNS name
+
+  Instead here is a new plan, it is abstract, so it can be implemented
+  with validation added to orbitdb or an IPRS implementation
+
+  1. Authentication: Use secret revealing to authenticate ownership of
+     earlier review. Secret revealing along with Hash Pointers to put
+     virtual timestamp will prevent customers from selling reviews.
+  2. Discovery: Using flooding pubsub to publish updates to reviews
+     which are listened to by anyone who wants to start replicating
+     the review chains. Orbitdb allows loading the old state of the db
+     and new participants can sync old state of the db, which will be
+     interesting to support for our case too.
+
 * Key sharing 
 
 1. Can a market place deny vendors their feedback data by removing the
