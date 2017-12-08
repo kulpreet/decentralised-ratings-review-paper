@@ -523,7 +523,7 @@ details:
 $\texttt{Payment record}, \texttt{PR} = (V, A, RR)$
 
 
-\subsection{Review Record stored in IPFS}
+\subsection{Review Record stored in IPFS}\label{sec:review-record-stored}
   
 The reviews stored on IPFS include the following details: 
 
@@ -535,6 +535,10 @@ The reviews stored on IPFS include the following details:
 \item[$PoPR$, Proof of Payment Request] This is the request for
   payment signed by the vendors secret key so that it can be verified
   by a vendor public key
+\item[$Ptr$, Hash Pointer] This is a hash pointer to the most recent
+  review written by the customer. See
+  section~\ref{sec:timestamping-reviews} for details on why we need
+  this and how it is used
 \item[$H$, Hash]: The hash of all of the above, $H(R, Rv, Dr, PoPR)$
 \end{description}
 
@@ -725,6 +729,53 @@ marketplace. Given this, the vendors are unable to selectively hide
 reviews from any marketplace without being discovered and potentially
 penalised by the marketplace.
 
+\subsection{Timestamping Reviews}\label{sec:timestamping-reviews}
+
+We provide a means to provide virtual timestamps on reviews so that
+there is a way for marketplaces to determine the elapsed time between
+when a payment was made and when a review is being written. The goal
+of providing these timestamps is not provide a precise timestamp but
+to limit a customer from accumulating reviews and sell the right to
+edit them to an attacking vendor. Using the timestamping scheme, as a
+customer makes purchases from a Chlu enabled wallet, marketplaces can
+determine this history of purchases and disregard reviews being
+created response to a payment made in the past. The time limit beyond
+which a marketplace wants to disregard reviews is set by individual
+marketplaces. Chlu suggest this limit be set to $2$ months, but each
+marketplace can set this limit independently.
+
+We now describe how the review timestamping scheme works and later
+describe futher how marketplace can use these timestamps.
+
+\subsubsection{Hash Pointers of Reviews}
+
+When a customer writes a review, the customer wallet embeds a hash
+pointer inside the \texttt{Review Record}, shown as attribute
+\texttt{Ptr} in~\ref{sec:review-record-stored}. As shown in
+figure~\ref{fig:hash-pointer-reviews}, each \texttt{Review Record}
+contains a hash pointer to the previous record created by the
+customer. Each \texttt{Review Record}, $R_i$ can be resolved to a
+payment $P_i$ which includes the timestamp $T_i$. The reviews
+$R_1, R_2, R_3 \ldots$ can be for different payments
+$P_1, P_2, P_3 \ldots$ created at times $T_1, T_2, T_3 \ldots$ and
+they don't need to be reviews for the same purchase.
+
+By requiring that customers store a chain of reviews connected by hash
+pointers, we enable any marketplace or independent user to conclude
+that an update, $R^{'}_1$, to review $R_1$ is at least more recent
+than the time payment $P_3$ was made.
+
+By providing a hash chain of reviews and being able to cross reference
+payment timestamps, marketplaces can determine if a customer has
+created a review for a purchase made long in the past. If they find a
+long time has passed since the purchase, the marketplace can choose to
+ignore the review.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.6\textwidth]{../timestamps.eps}
+\caption{\label{fig:hash-pointer-reviews}{Hash pointers in customer reviews}}
+\end{figure}
 
 \subsection{Making Payments and Saving Review Records}
 
